@@ -138,7 +138,7 @@ ie. they allow referencing a scope after the block in which the variables were d
 
 ```tut:book
 val addTo = (x :Int) => (y: Int) => x + y
-val addToFive = addTo(6)
+val addToFive = addTo(5)
 addToFive(3) // returns 8
 ```
 
@@ -763,7 +763,7 @@ Array(1, 2).eqv(Array(0))
 
 An object that has a `combine` function that combines it with another object of the same type.
 
-```tut:book
+```tut:book:reset
 trait Semigroup[A] {
   def combine(x: A, y: A): A
 }
@@ -773,6 +773,10 @@ object Semigroup {
   implicit def listInstance[B]: Semigroup[List[B]] = new Semigroup[List[B]] {
     def combine(x: List[B], y: List[B]): List[B] = x ::: y
   }
+  
+  implicit class SemigroupOps[A](x: A) {
+    def combine(y: A)(implicit ev: Semigroup[A]): A = ev.combine(x, y)
+  }
 
 }
 
@@ -781,11 +785,45 @@ import Semigroup._
 Semigroup[List[Int]].combine(List(1), List(2))
 ```
 
-## Foldable
-
-An object that has a `reduce` function that can transform that object into some other type.
+Semigroup must be closed under associativity and arbitrary products.
+(x·y)·z = x·(y·z) for all x, y and z in the semigroup.
 
 ```tut:book
+List(1).combine(List(2)).combine(List(3)) 
+List(1).combine(List(2).combine(List(3)))
+```
+
+
+```
+## Foldable
+
+An object that has a `foldr/l` function that can transform that object into some other type.
+
+```tut:book
+
+trait Foldable[F[_]] {
+  def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B
+  def foldRight[A, B](fa: F[A], b: B)(f: (A, B) => B): B
+}
+
+object Foldable {
+  def apply[F[_]](implicit ev: Foldable[F]) = ev
+
+  implicit val listInstance = new Foldable[List]{
+    def foldLeft[A, B](fa: List[A], b: B)(f: (B, A) => B): B = fa match {
+      case x :: xs => foldLeft(xs, f(b, x))(f)
+      case Nil => b 
+    }
+
+    def foldRight[A, B](fa: List[A], b: B)(f: (A, B) => B): B = fa match {
+      case x :: xs => f(x, foldRight(xs, b)(f))
+      case Nil => b
+    }
+  }
+}
+
+import Foldable._
+
 def sum[A](xs: List[A])(implicit N: Numeric[A]) : A =
   Foldable[List].foldLeft(xs, N.zero) {
     case (acc, x) => N.plus(acc, x)
@@ -799,10 +837,37 @@ A lens is a structure (often an object or function) that pairs a getter and a no
 structure.
 
 ```tut:book
-// Using [Monocle's lens](https://github.com/julien-truffaut/Monocle)
+import cats.Functor
+import monocle.PLens
 import monocle.Lens
-case class Person(name: String)
+// Using [Monocle's lens](https://github.com/julien-truffaut/Monocle)
 
+// S the source of a PLens
+// T the modified source of a PLens
+// A the target of a PLens
+// B the modified target of a PLens
+abstract class PLens[S, T, A, B] { 
+
+  /** get the target of a PLens */
+  def get(s: S): A
+
+  /** set polymorphically the target of a PLens using a function */
+  def set(b: B): S => T
+
+  /** modify polymorphically the target of a PLens using Functor function */
+  def modifyF[F[_]: Functor](f: A => F[B])(s: S): F[T]
+
+  /** modify polymorphically the target of a PLens using a function */
+  def modify(f: A => B): S => T
+}
+
+object Lens {
+  /** alias for [[PLens]] apply with a monomorphic set function */
+  def apply[S, A](get: S => A)(set: A => S => S): Lens[S, A] =
+    PLens(get)(set)
+}
+
+case class Person(name: String)
 val nameLens = Lens[Person, String](_.name)(str => p => p.copy(name = str))
 ```
 
@@ -812,12 +877,15 @@ Having the pair of get and set for a given data structure enables a few key feat
 val person = Person("Gertrude Blanch")
 
 // invoke the getter
+// get :: Person => String
 nameLens.get(person)
 
 // invoke the setter
+// set :: String => Person => Person
 nameLens.set("Shafi Goldwasser")(person)
 
 // run a function on the value in the structure
+// modify :: (String => String) => Person => Person
 nameLens.modify(_.toUpperCase)(person)
 ```
 

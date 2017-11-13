@@ -73,7 +73,7 @@ The number of arguments a function takes. From words like unary, binary, ternary
 
 ```scala
 val sum = (a : Int, b: Int) => a + b // The arity of sum is 2
-// sum: (Int, Int) => Int = $$Lambda$3441/949288171@44a31d52
+// sum: (Int, Int) => Int = $$Lambda$6089/41702096@2b0a78f5
 ```
 
 ## Higher-Order Functions (HOF)
@@ -83,11 +83,11 @@ A function which takes a function as an argument and/or returns a function.
 
 ```scala
 val filter = (predicate: Int => Boolean, xs: List[Int]) => xs.filter(predicate)
-// filter: (Int => Boolean, List[Int]) => List[Int] = $$Lambda$3475/1472271008@7aca0ae9
+// filter: (Int => Boolean, List[Int]) => List[Int] = $$Lambda$6101/1664822486@6c2961d4
 ```
 ```scala
 val isEven = (x: Int) => x % 2 == 0
-// isEven: Int => Boolean = $$Lambda$3476/858214604@4dd49ae1
+// isEven: Int => Boolean = $$Lambda$6102/1380731259@7caf5594
 ```
 
 ```scala
@@ -103,11 +103,11 @@ Partially applying a function means creating a new function by pre-filling some 
 ```scala
 // Something to apply
 val add3 = (a: Int, b: Int, c: Int) => a + b + c
-// add3: (Int, Int, Int) => Int = $$Lambda$3509/1963084265@4bc9845f
+// add3: (Int, Int, Int) => Int = $$Lambda$6104/749395786@26f51ccc
 
 // Partially applying `2` and `3` to `add3` gives you a one-argument function
 val fivePlus = add3(2, 3, _: Int) // (c) => 2 + 3 + c
-// fivePlus: Int => Int = $$Lambda$3510/1476906319@3fc29e32
+// fivePlus: Int => Int = $$Lambda$6105/747846882@57c90a91
 
 fivePlus(4)
 // res3: Int = 9
@@ -123,16 +123,16 @@ Each time the function is called it only accepts one argument and returns a func
 
 ```scala
 val sum = (a : Int, b: Int) => a + b
-// sum: (Int, Int) => Int = $$Lambda$3511/415553975@21db0ea1
+// sum: (Int, Int) => Int = $$Lambda$6106/477864989@f720751
 
 val curriedSum = (a: Int) => (b: Int) => a + b
-// curriedSum: Int => (Int => Int) = $$Lambda$3522/552068472@5b4a9854
+// curriedSum: Int => (Int => Int) = $$Lambda$6107/1895392220@447d87e6
 
 curriedSum(40)(2) // 42.
 // res4: Int = 42
 
 val add2 = curriedSum(2) // (b) => 2 + b
-// add2: Int => Int = $$Lambda$3524/1243857026@2b245846
+// add2: Int => Int = $$Lambda$6108/1784411761@45922de3
 
 add2(10) // 12
 // res5: Int = 12
@@ -149,13 +149,13 @@ ie. they allow referencing a scope after the block in which the variables were d
 
 ```scala
 val addTo = (x :Int) => (y: Int) => x + y
-// addTo: Int => (Int => Int) = $$Lambda$3525/1093452726@29b2ed8f
+// addTo: Int => (Int => Int) = $$Lambda$6109/741101144@c019bed
 
-val addToFive = addTo(6)
-// addToFive: Int => Int = $$Lambda$3526/2089810407@1e32b4bb
+val addToFive = addTo(5)
+// addToFive: Int => Int = $$Lambda$6110/1430362686@30d35a2d
 
 addToFive(3) // returns 8
-// res6: Int = 9
+// res6: Int = 8
 ```
 
 The function `addTo()` returns a function(internally called `add()`), lets store it in a variable called `addToFive` with a curried call having parameter 5.
@@ -182,13 +182,13 @@ lodash & Ramda have a `curry` function that works this way.
 
 ```scala
 val add = (x: Int, y: Int) => x + y
-// add: (Int, Int) => Int = $$Lambda$3527/2124742392@72e5a2c5
+// add: (Int, Int) => Int = $$Lambda$6111/885864900@6fc805b3
 
 val curriedAdd = add.curried
-// curriedAdd: Int => (Int => Int) = scala.Function2$$Lambda$3528/149489050@79f9315c
+// curriedAdd: Int => (Int => Int) = scala.Function2$$Lambda$3285/878350569@583d1436
 
 curriedAdd(2) // (y) => 1 + y
-// res7: Int => Int = scala.Function2$$Lambda$3529/677277518@3eb26ae2
+// res7: Int => Int = scala.Function2$$Lambda$3286/1189535279@75c6a7a5
 
 curriedAdd(1)(2) // 3
 // res8: Int = 3
@@ -207,7 +207,7 @@ def compose[A, B, C](f: B => C, g: A => B) = (a: A) => f(g(a)) // Definition
 // compose: [A, B, C](f: B => C, g: A => B)A => C
 
 val floorAndToString = compose((x: Double) => x.toString, math.floor) // Usage
-// floorAndToString: Double => String = $$Lambda$3550/1401633659@2d40165e
+// floorAndToString: Double => String = $$Lambda$6114/392323038@14236e09
 
 floorAndToString(121.212121) // '121.0'
 // res9: String = 121.0
@@ -222,13 +222,13 @@ def printAsString(num: Int) = println(s"Given $num")
 // printAsString: (num: Int)Unit
 
 val printAsString= (num: Int) => println(s"Given $num")
-// printAsString: Int => Unit = $$Lambda$3551/1418297608@415c59c7
+// printAsString: Int => Unit = $$Lambda$6115/353404609@582dea2f
 
 val addOneAndContinue = (num: Int, cc: Int => Any) => {
   val result = num + 1
   cc(result)
 }
-// addOneAndContinue: (Int, Int => Any) => Any = $$Lambda$3555/1288068304@5fc90830
+// addOneAndContinue: (Int, Int => Any) => Any = $$Lambda$6116/209832866@9488095
 
 addOneAndContinue(2, printAsString) 
 // Given 3
@@ -262,7 +262,7 @@ input values, and does not produce side effects.
 
 ```scala
 val greet = (name: String) => s"Hi, ${name}"
-// greet: String => String = $$Lambda$3557/636255488@26576443
+// greet: String => String = $$Lambda$6118/976300008@d803871
 
 greet("Brianne")
 // res12: String = Hi, Brianne
@@ -290,7 +290,7 @@ var greeting: String = _
 val greet = (name: String) => {
   greeting = s"Hi, ${name}"
 }
-// greet: String => Unit = $$Lambda$3559/1623698257@69e3a8b8
+// greet: String => Unit = $$Lambda$6120/1120068379@6bf02320
 
 greet("Brianne")
 
@@ -348,17 +348,17 @@ def map[A, B](fn: A => B) = (list: List[A]) => list.map(fn)
 // map: [A, B](fn: A => B)List[A] => List[B]
 
 val add = (a: Int) => (b: Int) => a + b
-// add: Int => (Int => Int) = $$Lambda$3577/151117934@2e344492
+// add: Int => (Int => Int) = $$Lambda$6121/1340871739@61a102c5
 
 // Then
 
 // Not points-free - `numbers` is an explicit argument
 val incrementAll = (numbers: List[Int]) => map(add(1))(numbers)
-// incrementAll: List[Int] => List[Int] = $$Lambda$3578/487446095@43212328
+// incrementAll: List[Int] => List[Int] = $$Lambda$6122/1403313951@7e5972fd
 
 // Points-free - The list is an implicit argument
 val incrementAll2 = map(add(1))
-// incrementAll2: List[Int] => List[Int] = $$Lambda$3580/596896842@24345e32
+// incrementAll2: List[Int] => List[Int] = $$Lambda$6124/221818483@221baf45
 ```
 
 `incrementAll` identifies and uses the parameter `numbers`, so it is not points-free.  `incrementAll2` is written just by combining functions and values, making no mention of its arguments.  It __is__ points-free.
@@ -370,7 +370,7 @@ A predicate is a function that returns true or false for a given value. A common
 
 ```scala
 val predicate = (a: Int) => a > 2
-// predicate: Int => Boolean = $$Lambda$3581/971238461@65706561
+// predicate: Int => Boolean = $$Lambda$6125/2085181758@1e842ab7
 
 List(1, 2, 3, 4).filter(predicate)
 // res24: List[Int] = List(3, 4)
@@ -442,7 +442,7 @@ Person("John", 30)
 // res29: Person = Person(John,30)
 
 (a: Any) => a
-// res30: Any => Any = $$Lambda$3803/583264391@5daca47e
+// res30: Any => Any = $$Lambda$6126/1828268232@117ca3b4
 
 List(1)
 // res31: List[Int] = List(1)
@@ -500,10 +500,10 @@ and
 
 ```scala
 val f = (x: Int) => x + 1
-// f: Int => Int = $$Lambda$3805/1337520858@1bbd1348
+// f: Int => Int = $$Lambda$6128/977330834@2ef88643
 
 val g = (x: Int) => x * 2
-// g: Int => Int = $$Lambda$3806/1201030873@587ed78f
+// g: Int => Int = $$Lambda$6129/739719665@1b4dfd52
 
 List(1, 2, 3).map(x => f(g(x)))
 // res35: List[Int] = List(3, 5, 7)
@@ -542,10 +542,10 @@ def liftA2[F[_]: Monad, A, B, C](f: A => B => C)(a: F[A], b: F[B]) = {
 // liftA2: [F[_], A, B, C](f: A => (B => C))(a: F[A], b: F[B])(implicit evidence$1: cats.Monad[F])F[C]
 
 val mult = (a: Int) => (b: Int) => a * b
-// mult: Int => (Int => Int) = $$Lambda$3825/941006982@39462c4
+// mult: Int => (Int => Int) = $$Lambda$6131/1684188711@6840cae6
 
 val liftedMult = liftA2[List, Int, Int, Int](mult) _
-// liftedMult: (List[Int], List[Int]) => List[Int] = $$Lambda$3829/272469990@ca099d2
+// liftedMult: (List[Int], List[Int]) => List[Int] = $$Lambda$6132/1015569705@69b98e8
 
 liftedMult(List(1, 2), List(3))
 // res38: List[Int] = List(3, 6)
@@ -558,7 +558,7 @@ Lifting a one-argument function and applying it does the same thing as `map`.
 
 ```scala
 val increment = (x: Int) => x + 1
-// increment: Int => Int = $$Lambda$3834/808500214@a661284
+// increment: Int => Int = $$Lambda$6137/1176025030@60dd7083
 
 Applicative[List].lift(increment)(List(2))
 // res40: List[Int] = List(3)
@@ -577,7 +577,7 @@ Say we have function greet:
 
 ```scala
 val greet = () => "Hello World!"
-// greet: () => String = $$Lambda$3836/2079217133@268fc129
+// greet: () => String = $$Lambda$6139/1754785613@1d1c9e6a
 ```
 
 Any invocation of `greet()` can be replaced with `Hello World!` hence greet is
@@ -593,10 +593,10 @@ An anonymous function that can be treated like a value.
 
 ```scala
 (_: Int) + 1
-// res42: Int => Int = $$Lambda$3837/1224602150@11727d99
+// res42: Int => Int = $$Lambda$6140/835760611@2344fbd6
 
 (x: Int) => x + 1
-// res43: Int => Int = $$Lambda$3838/2083153440@e93f841
+// res43: Int => Int = $$Lambda$6141/605433877@12d4147c
 ```
 Lambdas are often passed as arguments to Higher-Order functions.
 
@@ -609,7 +609,7 @@ You can assign a lambda to a variable.
 
 ```scala
 val add1 = (a: Int) => a + 1
-// add1: Int => Int = $$Lambda$3840/120904550@65f0d087
+// add1: Int => Int = $$Lambda$6143/1533951980@6546b471
 ```
 
 ## Lambda Calculus
@@ -630,7 +630,7 @@ lazy val rand: Double = {
 ```scala
 rand // Each execution gives a random value, expression is evaluated on need.
 // generate random value...
-// res45: Double = 0.20649400778816496
+// res45: Double = 0.7668030551457087
 ```
 
 ## Monoid
@@ -838,10 +838,10 @@ val arg2 = List(4, 5)
 
 // combining function - must be curried for this to work
 val add = (x: Int) => (y: Int) => x + y
-// add: Int => (Int => Int) = $$Lambda$3880/964425282@54b7810
+// add: Int => (Int => Int) = $$Lambda$6151/266874536@144646d8
 
 val partiallyAppiedAdds = Applicative[List].ap(List(add))(arg1) // [(y) => 1 + y, (y) => 3 + y]
-// partiallyAppiedAdds: List[Int => Int] = List($$Lambda$3881/1355427055@4a6e22e5, $$Lambda$3881/1355427055@259a58bd)
+// partiallyAppiedAdds: List[Int => Int] = List($$Lambda$6152/226672465@6ff3ff0, $$Lambda$6152/226672465@677536aa)
 ```
 
 This gives you an array of functions that you can call `ap` on to get the result:
@@ -862,11 +862,11 @@ A function where the input type is the same as the output.
 ```scala
 // uppercase :: String -> String
 val uppercase = (str: String) => str.toUpperCase
-// uppercase: String => String = $$Lambda$3886/1908696012@67473ffa
+// uppercase: String => String = $$Lambda$6153/1625244377@4f348849
 
 // decrement :: Number -> Number
 val decrement = (x: Int) => x - 1
-// decrement: Int => Int = $$Lambda$3887/1569202064@44e51e92
+// decrement: Int => Int = $$Lambda$6154/147034451@797635f9
 ```
 
 ### Isomorphism
@@ -881,10 +881,10 @@ case class Coords(x: Int, y: Int)
 // defined class Coords
 
 val pairToCoords = (pair: (Int, Int)) => Coords(pair._1, pair._2)
-// pairToCoords: ((Int, Int)) => Coords = $$Lambda$3888/672125148@319f15a4
+// pairToCoords: ((Int, Int)) => Coords = $$Lambda$6155/416347946@4d78afea
 
 val coordsToPair = (coods: Coords) => (coods.x, coods.y)
-// coordsToPair: Coords => (Int, Int) = $$Lambda$3889/121823381@7659efd9
+// coordsToPair: Coords => (Int, Int) = $$Lambda$6156/905411695@26eed67a
 
 coordsToPair(pairToCoords((1, 2)))
 // res67: (Int, Int) = (1,2)
@@ -955,6 +955,10 @@ object Semigroup {
   implicit def listInstance[B]: Semigroup[List[B]] = new Semigroup[List[B]] {
     def combine(x: List[B], y: List[B]): List[B] = x ::: y
   }
+  
+  implicit class SemigroupOps[A](x: A) {
+    def combine(y: A)(implicit ev: Semigroup[A]): A = ev.combine(x, y)
+  }
 
 }
 // defined object Semigroup
@@ -965,14 +969,54 @@ import Semigroup._
 // import Semigroup._
 
 Semigroup[List[Int]].combine(List(1), List(2))
-// res72: List[Int] = List(1, 2)
+// res0: List[Int] = List(1, 2)
 ```
 
-## Foldable
-
-An object that has a `reduce` function that can transform that object into some other type.
+Semigroup must be closed under associativity and arbitrary products.
+(x·y)·z = x·(y·z) for all x, y and z in the semigroup.
 
 ```scala
+List(1).combine(List(2)).combine(List(3)) 
+// res1: List[Int] = List(1, 2, 3)
+
+List(1).combine(List(2).combine(List(3)))
+// res2: List[Int] = List(1, 2, 3)
+```
+
+
+```
+## Foldable
+
+An object that has a `foldr/l` function that can transform that object into some other type.
+
+```scala
+trait Foldable[F[_]] {
+  def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B
+  def foldRight[A, B](fa: F[A], b: B)(f: (A, B) => B): B
+}
+// warning: there was one feature warning; for details, enable `:setting -feature' or `:replay -feature'
+// defined trait Foldable
+
+object Foldable {
+  def apply[F[_]](implicit ev: Foldable[F]) = ev
+
+  implicit val listInstance = new Foldable[List]{
+    def foldLeft[A, B](fa: List[A], b: B)(f: (B, A) => B): B = fa match {
+      case x :: xs => foldLeft(xs, f(b, x))(f)
+      case Nil => b 
+    }
+
+    def foldRight[A, B](fa: List[A], b: B)(f: (A, B) => B): B = fa match {
+      case x :: xs => f(x, foldRight(xs, b)(f))
+      case Nil => b
+    }
+  }
+}
+// defined object Foldable
+
+import Foldable._
+// import Foldable._
+
 def sum[A](xs: List[A])(implicit N: Numeric[A]) : A =
   Foldable[List].foldLeft(xs, N.zero) {
     case (acc, x) => N.plus(acc, x)
@@ -980,7 +1024,7 @@ def sum[A](xs: List[A])(implicit N: Numeric[A]) : A =
 // sum: [A](xs: List[A])(implicit N: Numeric[A])A
 
 sum(List(1, 2, 3))
-// res73: Int = 6
+// res3: Int = 6
 ```
 
 ## Lens ##
@@ -988,15 +1032,51 @@ A lens is a structure (often an object or function) that pairs a getter and a no
 structure.
 
 ```scala
-// Using [Monocle's lens](https://github.com/julien-truffaut/Monocle)
+import cats.Functor
+// import cats.Functor
+
+import monocle.PLens
+// import monocle.PLens
+
 import monocle.Lens
 // import monocle.Lens
+
+// Using [Monocle's lens](https://github.com/julien-truffaut/Monocle)
+
+// S the source of a PLens
+// T the modified source of a PLens
+// A the target of a PLens
+// B the modified target of a PLens
+abstract class PLens[S, T, A, B] { 
+
+  /** get the target of a PLens */
+  def get(s: S): A
+
+  /** set polymorphically the target of a PLens using a function */
+  def set(b: B): S => T
+
+  /** modify polymorphically the target of a PLens using Functor function */
+  def modifyF[F[_]: Functor](f: A => F[B])(s: S): F[T]
+
+  /** modify polymorphically the target of a PLens using a function */
+  def modify(f: A => B): S => T
+}
+// defined class PLens
+// warning: previously defined object PLens is not a companion to class PLens.
+// Companions must be defined together; you may wish to use :paste mode for this.
+
+object Lens {
+  /** alias for [[PLens]] apply with a monomorphic set function */
+  def apply[S, A](get: S => A)(set: A => S => S): Lens[S, A] =
+    PLens(get)(set)
+}
+// defined object Lens
 
 case class Person(name: String)
 // defined class Person
 
 val nameLens = Lens[Person, String](_.name)(str => p => p.copy(name = str))
-// nameLens: monocle.Lens[Person,String] = monocle.PLens$$anon$8@3ece5ad8
+// nameLens: monocle.Lens[Person,String] = monocle.PLens$$anon$8@5b2aa650
 ```
 
 Having the pair of get and set for a given data structure enables a few key features.
@@ -1006,16 +1086,19 @@ val person = Person("Gertrude Blanch")
 // person: Person = Person(Gertrude Blanch)
 
 // invoke the getter
+// get :: Person => String
 nameLens.get(person)
-// res76: String = Gertrude Blanch
+// res12: String = Gertrude Blanch
 
 // invoke the setter
+// set :: String => Person => Person
 nameLens.set("Shafi Goldwasser")(person)
-// res78: Person = Person(Shafi Goldwasser)
+// res15: Person = Person(Shafi Goldwasser)
 
 // run a function on the value in the structure
+// modify :: (String => String) => Person => Person
 nameLens.modify(_.toUpperCase)(person)
-// res80: Person = Person(GERTRUDE BLANCH)
+// res18: Person = Person(GERTRUDE BLANCH)
 ```
 
 Lenses are also composable. This allows easy immutable updates to deeply nested data.
@@ -1037,7 +1120,7 @@ val people = List(Person("Gertrude Blanch"), Person("Shafi Goldwasser"))
 
 // Despite what you may assume, lenses compose left-to-right.
 (firstLens composeLens nameLens).modify(_.toUpperCase)(people)
-// res84: List[Person] = List(Person(GERTRUDE BLANCH), Person(Shafi Goldwasser))
+// res22: List[Person] = List(Person(GERTRUDE BLANCH), Person(Shafi Goldwasser))
 ```
 
 Other implementations:
@@ -1056,11 +1139,11 @@ Every functions in Scala will indicate the types of their arguments and return v
 
 // add :: Number -> Number -> Number
 val add = (x: Int) => (y: Int) => x + y
-// add: Int => (Int => Int) = $$Lambda$3992/1013307953@1445ea9
+// add: Int => (Int => Int) = $$Lambda$6168/450833074@b76efce
 
 // increment :: Number -> Number
 val increment = (x: Int) => x + 1
-// increment: Int => Int = $$Lambda$3993/1324354565@3bebe5cc
+// increment: Int => Int = $$Lambda$6169/2134951565@23429781
 ```
 
 If a function accepts another function as an argument it is wrapped in parentheses.
@@ -1115,7 +1198,7 @@ type WeakLogicType = Either[Bool, HalfTrue]
 // defined type alias WeakLogicType
 
 val weakLogicValues: Set[Either[HalfTrue, Bool]] = Set(Right(True), Right(False), Left(HalfTrue))
-// weakLogicValues: Set[Either[HalfTrue,Bool]] = Set(Right(True$@6063925f), Right(False$@f185855), Left(HalfTrue$@89ed2a7))
+// weakLogicValues: Set[Either[HalfTrue,Bool]] = Set(Right(True$@c8afbd6), Right(False$@78d0f039), Left(HalfTrue$@76907679))
 ```
 
 Sum types are sometimes called union types, discriminated unions, or tagged unions.
@@ -1134,7 +1217,7 @@ case class Point(x: Int, y: Int)
 // defined class Point
 
 val point = (x: Int, y: Int) => Point(x, y)
-// point: (Int, Int) => Point = $$Lambda$3995/1369656752@61e7f147
+// point: (Int, Int) => Point = $$Lambda$6170/1963675584@55a1298b
 ```
 It's called a product because the total possible values of the data structure is the product of the different values. Many languages have a tuple type which is the simplest formulation of a product type.
 
@@ -1185,13 +1268,13 @@ def getNestedPrice[A](cart: Map[String, Map[String, A]]) = getItem(cart).flatMap
 // getNestedPrice: [A](cart: Map[String,Map[String,A]])Option[A]
 
 getNestedPrice(Map())
-// res100: Option[Nothing] = None
+// res38: Option[Nothing] = None
 
 getNestedPrice(Map("item" -> Map("foo" -> 1)))
-// res101: Option[Int] = None
+// res39: Option[Int] = None
 
 getNestedPrice(Map("item" -> Map("price" -> 9.99)))
-// res102: Option[Double] = Some(9.99)
+// res40: Option[Double] = Some(9.99)
 ```
 
 `Option` is also known as `Maybe`. `Some` is sometimes called `Just`. `None` is sometimes called `Nothing`.
