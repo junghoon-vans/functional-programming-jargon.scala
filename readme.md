@@ -984,7 +984,6 @@ List(1).combine(List(2).combine(List(3)))
 ```
 
 
-```
 ## Foldable
 
 An object that has a `foldr/l` function that can transform that object into some other type.
@@ -1027,7 +1026,7 @@ sum(List(1, 2, 3))
 // res3: Int = 6
 ```
 
-## Lens ##
+## Lens
 A lens is a structure (often an object or function) that pairs a getter and a non-mutating setter for some other data
 structure.
 
