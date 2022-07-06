@@ -187,7 +187,7 @@ val add = (x: Int, y: Int) => x + y
 val curriedAdd = add.curried
 // curriedAdd: Int => (Int => Int) = scala.Function2$$Lambda$3285/878350569@583d1436
 
-curriedAdd(2) // (y) => 1 + y
+curriedAdd(2) // (y) => 2 + y
 // res7: Int => Int = scala.Function2$$Lambda$3286/1189535279@75c6a7a5
 
 curriedAdd(1)(2) // 3
