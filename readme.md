@@ -1,22 +1,16 @@
-# Scala code examples for Functional Programming Jargon 
+# Scala code examples for Functional Programming Jargon
 
-- This project is fork of [hemanth/functional-programming-jargon](https://github.com/hemanth/functional-programming-jargon)
+이 문서는 [ikhoon/functional-programming-jargon.scala](https://github.com/ikhoon/functional-programming-jargon.scala)의 번역본입니다.
 
 # Functional Programming Jargon
 
-Functional programming (FP) provides many advantages, and its popularity has been increasing as a result. However, each programming paradigm comes with its own unique jargon and FP is no exception. By providing a glossary, we hope to make learning FP easier.
+함수형 프로그래밍(FP)은 많은 이점을 제공하며, 그 결과 그 인기가 높아지고 있습니다. 그러나 각 프로그래밍 패러다임에는 고유한 전문 용어가 존재하며 FP도 예외는 아닙니다. 용어집을 제공함으로써 FP를 더 쉽게 배울 수 있기를 바랍니다.
 
-Examples are presented in JavaScript (ES2015). [Why JavaScript?](https://github.com/hemanth/functional-programming-jargon/wiki/Why-JavaScript%3F)
+예제는 Scala로 제공됩니다. [Why Scala 3?](https://docs.scala-lang.org/scala3/book/why-scala-3.html#)
 
-*This is a [WIP](https://github.com/hemanth/functional-programming-jargon/issues/20); please feel free to send a PR ;)*
+이것은 [WIP](https://github.com/hemanth/functional-programming-jargon/issues/20)입니다. 자유롭게 PR을 보내주세요. ;)
 
-Where applicable, this document uses terms defined in the [Fantasy Land spec](https://github.com/fantasyland/fantasy-land)
-
-__Translations__
-* [Portuguese](https://github.com/alexmoreno/jargoes-programacao-funcional)
-* [Spanish](https://github.com/idcmardelplata/functional-programming-jargon/tree/master)
-* [Chinese](https://github.com/shfshanyue/fp-jargon-zh)
-* [Bahasa Indonesia](https://github.com/wisn/jargon-pemrograman-fungsional)
+해당되는 경우, 본 문서에서는 [Fantasy Land spec](https://github.com/fantasyland/fantasy-land)에 정의된 용어를 사용합니다.
 
 __Table of Contents__
 <!-- RM(noparent,notop) -->
@@ -69,17 +63,16 @@ __Table of Contents__
 
 ## Arity
 
-The number of arguments a function takes. From words like unary, binary, ternary, etc. This word has the distinction of being composed of two suffixes, "-ary" and "-ity." Addition, for example, takes two arguments, and so it is defined as a binary function or a function with an arity of two. Such a function may sometimes be called "dyadic" by people who prefer Greek roots to Latin. Likewise, a function that takes a variable number of arguments is called "variadic," whereas a binary function must be given two and only two arguments, currying and partial application notwithstanding (see below).
+함수가 받는 인수의 개수입니다. 단항, 바이너리, 삼항 등과 같은 단어에서 유래했습니다. 이 단어는 두 개의 접미사, "-ary"와 "-ity"로 구성되어 있다는 특징이 있습니다. 예를 들어 덧셈은 두 개의 인수가 필요하므로 이진 함수 또는 항수(Arity)가 2인 함수로 정의됩니다. 이러한 함수는 라틴어보다 그리스어 어원을 선호하는 사람들에 의해 때때로 "dyadic"이라고 불릴 수 있습니다. 마찬가지로 가변적인 수의 인수를 받는 함수를 "가변적"이라고 하는 반면, 이진 함수는 커링(Currying) 및 부분 적용(Partial Application)에도 불구하고 두 개의 인수를 받아야 합니다. (아래 참조)
 
 ```scala
-val sum = (a : Int, b: Int) => a + b // The arity of sum is 2
+val sum = (a : Int, b: Int) => a + b // Arity는 2입니다.
 // sum: (Int, Int) => Int = $$Lambda$6089/41702096@2b0a78f5
 ```
 
 ## Higher-Order Functions (HOF)
 
-A function which takes a function as an argument and/or returns a function.
-
+함수를 인수로 받거나 함수를 반환하는 함수입니다.
 
 ```scala
 val filter = (predicate: Int => Boolean, xs: List[Int]) => xs.filter(predicate)
@@ -97,29 +90,28 @@ filter(isEven, List(1, 2, 3, 4, 5))
 
 ## Partial Application
 
-Partially applying a function means creating a new function by pre-filling some of the arguments to the original function.
-
+함수를 부분적으로 적용한다는 것은 원래 함수에 일부 인수를 미리 채워서 새 함수를 만드는 것을 의미합니다.
 
 ```scala
-// Something to apply
+// 적용할 함수
 val add3 = (a: Int, b: Int, c: Int) => a + b + c
 // add3: (Int, Int, Int) => Int = $$Lambda$6104/749395786@26f51ccc
 
-// Partially applying `2` and `3` to `add3` gives you a one-argument function
+// `2`와 `3`을 `add3`에 부분적으로 적용하면 단일 인수 함수가 됩니다.
 val fivePlus = add3(2, 3, _: Int) // (c) => 2 + 3 + c
 // fivePlus: Int => Int = $$Lambda$6105/747846882@57c90a91
 
 fivePlus(4)
 // res3: Int = 9
 ```
-
-Partial application helps create simpler functions from more complex ones by baking in data when you have it. [Curried](#currying) functions are automatically partially applied.
+부분 적용(Partial Application)은 데이터를 조작하여 복잡한 함수를 간단한 함수로 만드는 데 사용됩니다.
+[Curried](#currying) 함수는 자동으로 부분 적용됩니다.
 
 ## Currying
 
-The process of converting a function that takes multiple arguments into a function that takes them one at a time.
+여러 인수를 받는 함수를 한 번에 하나씩 받는 함수로 변환하는 프로세스입니다.
 
-Each time the function is called it only accepts one argument and returns a function that takes one argument until all arguments are passed.
+함수가 호출될 때마다 하나의 인수만 받고 모든 인수가 전달될 때까지 하나의 인수를 받는 함수를 반환합니다.
 
 ```scala
 val sum = (a : Int, b: Int) => a + b
@@ -140,11 +132,11 @@ add2(10) // 12
 
 ## Closure
 
-A closure is a way of accessing a variable outside its scope.
-Formally, a closure is a technique for implementing lexically scoped named binding. It is a way of storing a function with an environment.
+클로저(Closure)는 범위 밖에서 변수에 액세스하는 방법입니다.
+공식적으로 클로저는 어휘 범위가 지정된 네임드 바인딩을 구현하는 기술입니다. 환경과 함께 함수를 저장하는 방법입니다.
 
-A closure is a scope which captures local variables of a function for access even after the execution has moved out of the block in which it is defined.
-ie. they allow referencing a scope after the block in which the variables were declared has finished executing.
+클로저는 실행이 함수가 정의된 블록을 벗어난 후에도 액세스를 위해 함수의 로컬 변수를 캡처하는 스코프입니다.
+즉, 변수가 선언된 블록의 실행이 끝난 후에도 스코프를 참조할 수 있습니다.
 
 
 ```scala
@@ -158,27 +150,27 @@ addToFive(3) // returns 8
 // res6: Int = 8
 ```
 
-The function `addTo()` returns a function(internally called `add()`), lets store it in a variable called `addToFive` with a curried call having parameter 5.
+함수 `addTo()`는 함수(내부적으로 `add()`라고 함)를 반환하고, 이를 매개변수 5를 가진 curried 호출을 통해 `addToFive`라는 변수에 저장합니다.
 
-Ideally, when the function `addTo` finishes execution, its scope, with local variables add, x, y should not be accessible. But, it returns 8 on calling `addToFive()`. This means that the state of the function `addTo` is saved even after the block of code has finished executing, otherwise there is no way of knowing that `addTo` was called as `addTo(5)` and the value of x was set to 5.
+이상적으로는 `addTo` 함수가 실행을 완료하면 로컬 변수 add, x, y를 포함한 해당 범위에 접근할 수 없어야 합니다.하지만 `addToFive()`를 호출하면 8을 반환합니다. 즉, 코드 블록의 실행이 완료된 후에도 `addTo` 함수의 상태가 저장되며, 그렇지 않으면 `addTo`가 `addTo(5)`로 호출되었고 x의 값이 5로 설정되었다는 것을 알 방법이 없습니다.
 
-Lexical scoping is the reason why it is able to find the values of x and add - the private variables of the parent which has finished executing. This value is called a Closure.
+어휘 범위 지정은 실행이 완료된 부모의 개인 변수인 x와 add의 값을 찾을 수 있는 이유입니다. 이 값을 클로저라고 합니다.
 
-The stack along with the lexical scope of the function is stored in form of reference to the parent. This prevents the closure and the underlying variables from being garbage collected(since there is at least one live reference to it).
+함수의 어휘 범위와 함께 스택은 부모에 대한 참조 형태로 저장됩니다. 이렇게 하면 클로저와 기본 변수가 가비지 수집되는 것을 방지할 수 있습니다(클로저에 대한 라이브 참조가 하나 이상 있기 때문입니다).
 
-Lambda Vs Closure: A lambda is essentially a function that is defined inline rather than the standard method of declaring functions. Lambdas can frequently be passed around as objects.
+Lambda Vs Closure: 람다는 본질적으로 함수를 선언하는 표준 방식이 아닌 인라인으로 정의되는 함수입니다. 람다는 종종 객체로 전달될 수 있습니다.
 
-A closure is a function that encloses its surrounding state by referencing fields external to its body. The enclosed state remains across invocations of the closure.
-
+클로저는 본문 외부의 필드를 참조하여 주변 상태를 둘러싸는 함수입니다. 닫힌 상태는 클로저를 호출할 때마다 유지됩니다.
 
 __Further reading/Sources__
 * [Lambda Vs Closure](http://stackoverflow.com/questions/220658/what-is-the-difference-between-a-closure-and-a-lambda)
 * [How do JavaScript Closures Work?](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
 
 ## Auto Currying
-Transforming a function that takes multiple arguments into one that if given less than its correct number of arguments returns a function that takes the rest. When the function gets the correct number of arguments it is then evaluated.
 
-lodash & Ramda have a `curry` function that works this way.
+여러 인수를 받는 함수를 올바른 인수 수보다 적은 인수가 주어질 경우 나머지 인수를 받는 함수로 변환하면 함수가 반환됩니다. 함수가 올바른 수의 인수를 받으면 평가됩니다.
+
+lodash와 Ramda에는 이런 방식으로 작동하는 'curry' 기능이 있습니다.
 
 ```scala
 val add = (x: Int, y: Int) => x + y
@@ -200,7 +192,7 @@ __Further reading__
 
 ## Function Composition
 
-The act of putting two functions together to form a third function where the output of one function is the input of the other.
+두 함수를 결합하여 한 함수의 출력이 다른 함수의 입력이 되는 세 번째 함수를 형성하는 행위입니다.
 
 ```scala
 def compose[A, B, C](f: B => C, g: A => B) = (a: A) => f(g(a)) // Definition
@@ -215,7 +207,7 @@ floorAndToString(121.212121) // '121.0'
 
 ## Continuation
 
-At any given point in a program, the part of the code that's yet to be executed is known as a continuation.
+프로그램의 특정 지점에서 아직 실행되지 않은 코드 부분을 연속(Continuation)이라고 합니다.
 
 ```scala
 def printAsString(num: Int) = println(s"Given $num")
@@ -235,7 +227,7 @@ addOneAndContinue(2, printAsString)
 // res10: Any = ()
 ```
 
-Continuations are often seen in asynchronous programming when the program needs to wait to receive data before it can continue. The response is often passed off to the rest of the program, which is the continuation, once it's been received.
+연속은 비동기 프로그래밍에서 프로그램이 계속 진행하기 전에 데이터를 수신할 때까지 기다려야 할 때 종종 볼 수 있습니다. 응답이 수신되면 프로그램의 나머지 부분, 즉 연속으로 전달되는 경우가 많습니다.
 
 ```scala
 def continueProgramWith(data: String) = {
@@ -257,8 +249,7 @@ readFileAsync("path/to/file", (err, response) => {
 
 ## Purity
 
-A function is pure if the return value is only determined by its
-input values, and does not produce side effects.
+함수는 반환값이 입력값에 의해서만 결정되고 부작용(Side Effects)을 생성하지 않으면 순수 함수(Pure Function)입니다.
 
 ```scala
 val greet = (name: String) => s"Hi, ${name}"
@@ -268,7 +259,7 @@ greet("Brianne")
 // res12: String = Hi, Brianne
 ```
 
-As opposed to each of the following:
+다음 각 항목과 반대입니다:
 
 ```scala
 var name = "Brianne"
@@ -281,7 +272,7 @@ greet()
 // res13: String = Hi, Brianne
 ```
 
-The above example's output is based on data stored outside of the function...
+위 예제의 출력은 함수 외부에 저장된 데이터를 기반으로 합니다...
 
 ```scala
 var greeting: String = _
@@ -298,11 +289,11 @@ greeting
 // res15: String = Hi, Brianne
 ```
 
-... and this one modifies state outside of the function.
+... 그리고 이것은 함수 외부에서 상태를 수정합니다.
 
 ## Side effects
 
-A function or expression is said to have a side effect if apart from returning a value, it interacts with (reads from or writes to) external mutable state.
+함수나 표현식이 값을 반환하는 것 외에 외부의 변경 가능한 상태와 상호작용(읽기 또는 쓰기)하는 경우 부작용(Side Effects)이 있다고 합니다.
 
 ```scala
 import java.util.Date
@@ -319,7 +310,7 @@ println("IO is a side effect!")
 
 ## Idempotent
 
-A function is idempotent if reapplying it to its result does not produce a different result.
+함수를 결과에 다시 적용해도 다른 결과가 나오지 않으면 함수는 멱등성(Idempotent)을 가집니다.
 
 ```
 f(f(x)) ≍ f(x)
@@ -340,7 +331,7 @@ sort(sort(sort(List(2, 1))))
 
 ## Point-Free Style
 
-Writing functions where the definition does not explicitly identify the arguments used. This style usually requires [currying](#currying) or other [Higher-Order functions](#higher-order-functions-hof). A.K.A Tacit programming.
+정의에 사용된 인수가 명시적으로 식별되지 않는 함수를 작성합니다. 이 스타일은 보통 [currying](#currying) 또는 기타 [Higher-Order functions](#higher-order-functions-hof)가 필요합니다. 암묵적 프로그래밍이라고도 합니다.
 
 ```scala
 // Given
@@ -361,12 +352,13 @@ val incrementAll2 = map(add(1))
 // incrementAll2: List[Int] => List[Int] = $$Lambda$6124/221818483@221baf45
 ```
 
-`incrementAll` identifies and uses the parameter `numbers`, so it is not points-free.  `incrementAll2` is written just by combining functions and values, making no mention of its arguments.  It __is__ points-free.
+`incrementAll`은 매개변수 `numbers`를 식별하고 사용하므로 포인트가 없습니다. `incrementAll2`는 인수를 언급하지 않고 함수와 값만 결합하여 작성됩니다. 이 함수는 포인트가 없습니다.
 
-Points-free function definitions look just like normal assignments without `function` or `=>`.
+포인트가 없는 함수 정의는 `function`이나 `=>`가 없는 일반 대입과 똑같습니다.
 
 ## Predicate
-A predicate is a function that returns true or false for a given value. A common use of a predicate is as the callback for array filter.
+
+술어(Predicate)는 주어진 값에 대해 참 또는 거짓을 반환하는 함수입니다. 술어는 일반적으로 배열 필터의 콜백으로 사용됩니다.
 
 ```scala
 val predicate = (a: Int) => a > 2
@@ -378,7 +370,7 @@ List(1, 2, 3, 4).filter(predicate)
 
 ## Contracts
 
-A contract specifies the obligations and guarantees of the behavior from a function or expression at runtime. This acts as a set of rules that are expected from the input and output of a function or expression, and errors are generally reported whenever a contract is violated.
+컨트랙트(Contracts)는 런타임에 함수나 표현식의 동작에 대한 의무와 보증을 명시합니다. 이는 함수나 표현식의 입력과 출력에서 예상되는 일련의 규칙 역할을 하며, 일반적으로 계약이 위반될 때마다 오류가 보고됩니다.
 
 ```scala
 scala> // Define our contract : int -> int
@@ -406,22 +398,22 @@ java.lang.Exception: Contract violated: expected int -> int
 
 ## Category
 
-A category in category theory is a collection of objects and morphisms between them. In programming, typically types
-act as the objects and functions as morphisms.
+범주(Category) 이론에서 범주는 객체와 객체 사이의 모피즘(Morphism)의 집합입니다. 프로그래밍에서는 일반적으로 타입은 객체 역할을 하고 함수는 형태소 역할을 합니다.
 
-To be a valid category 3 rules must be met:
+유효한 카테고리 3 규칙을 충족해야 합니다:
 
-1. There must be an identity morphism that maps an object to itself.
-    Where `a` is an object in some category,
-    there must be a function from `a -> a`.
-2. Morphisms must compose.
-    Where `a`, `b`, and `c` are objects in some category,
-    and `f` is a morphism from `a -> b`, and `g` is a morphism from `b -> c`;
+1. 객체를 그 자체에 매핑하는 아이덴티티 모피즘이 있어야 합니다.
+    `a`가 어떤 범주의 객체인 경우,
+    `a -> a`의 함수가 있어야 합니다.
+2. 모피즘은 반드시 구성해야 합니다.
+    `a`, `b`, `c`가 어떤 범주의 객체이고,
+    `f`가 `a -> b`의 모피즘이고, `g`가 `b -> c`의 모피즘이면;
+    `g(f(x))`는 `(g • f)(x)`와 동등해야 합니다.
     `g(f(x))` must be equivalent to `(g • f)(x)`.
-3. Composition must be associative
-    `f • (g • h)` is the same as `(f • g) • h`
+3. 구성은 결합적이어야 합니다.
+    `f • (g • h)`는 `(f • g) • h`와 같습니다.
 
-Since these rules govern composition at very abstract level, category theory is great at uncovering new ways of composing things.
+이러한 규칙은 매우 추상적인 수준에서 구성을 지배하기 때문에 카테고리 이론은 새로운 구성 방법을 발견하는 데 탁월합니다.
 
 __Further reading__
 
@@ -429,11 +421,11 @@ __Further reading__
 
 ## Value
 
-Anything that can be assigned to a variable.
+변수에 할당할 수 있는 모든 항목입니다.
 
 ```scala
 case class Person(name: String, age: Int)
-// defined class Person
+// Person 클래스 정의
 
 5
 // res28: Int = 5
@@ -453,7 +445,7 @@ null
 
 ## Constant
 
-A variable that cannot be reassigned once defined.
+한번 정의되면 재할당할 수 없는 변수입니다.
 
 ```scala
 val five = 5
@@ -463,9 +455,9 @@ val john = Person("John", 30)
 // john: Person = Person(John,30)
 ```
 
-Constants are [referentially transparent](#referential-transparency). That is, they can be replaced with the values that they represent without affecting the result.
+상수(Constant)는 [참조적으로 투명](#referential-transparency)합니다. 즉, 결과에 영향을 주지 않고 나타내는 값으로 대체할 수 있습니다.
 
-With the above two constants the following expression will always return `true`.
+위의 두 상수를 사용하면 다음 표현식은 항상 `true`를 반환합니다.
 
 ```scala
 john.age + five == Person("John", 30).age + 5
@@ -474,7 +466,7 @@ john.age + five == Person("John", 30).age + 5
 
 ## Functor
 
-An object that implements a `map` function which, while running over each value in the object to produce a new object, adheres to two rules:
+객체의 각 값에 대해 실행하여 새 객체를 생성하는 동안 두 가지 규칙을 준수하는 `map` 함수를 구현하는 객체입니다:
 
 __Preserves identity__
 ```
@@ -489,14 +481,14 @@ object.map(compose(f, g)) ≍ object.map(g).map(f)
 
 (`f`, `g` are arbitrary functions)
 
-A common functor in JavaScript is `Array` since it abides to the two functor rules:
+자바스크립트에서 흔히 사용되는 함수는 두 가지 함수의 규칙을 따르는 `Array`입니다:
 
 ```scala
 List(1, 2, 3).map(x => x) 
 // res34: List[Int] = List(1, 2, 3)
 ```
 
-and
+그리고
 
 ```scala
 val f = (x: Int) => x + 1
@@ -513,9 +505,10 @@ List(1, 2, 3).map(g).map(f)
 ```
 
 ## Pointed Functor
-An Applicative with an `pure` function that puts _any_ single value into it.
 
-[cats](https://typelevel.org/cats/) adds [`Applicative#pure`](https://github.com/typelevel/cats/blob/31874ce42b7e98bbb436a430c6a708f8e9db0e6d/core/src/main/scala/cats/Applicative.scala#L23) making arrays a pointed functor.
+단일 값을 _어떤_ 값이라도 넣는 `순수` 함수를 가진 애플리케이션입니다.
+
+[cats](https://typelevel.org/cats/) [`Applicative#pure`](https://github.com/typelevel/cats/blob/31874ce42b7e98bbb436a430c6a708f8e9db0e6d/core/src/main/scala/cats/Applicative.scala#L23)를 추가하여 배열을 포인트된 펑터로 만듭니다.
 
 ```scala
 import cats._
@@ -530,9 +523,10 @@ Applicative[List].pure(1)
 
 ## Lift
 
-Lifting is when you take a value and put it into an object like a [functor](#pointed-functor). If you lift a function into an [Applicative Functor](#applicative-functor) then you can make it work on values that are also in that functor.
+리프팅은 값을 [펑터](#pointed-functor)와 같은 객체에 넣는 것을 말합니다.
+함수를 [적용성 펑터](#applicative-functor)로 리프팅하면 해당 함수에 있는 값에 대해서도 작동하도록 만들 수 있습니다.
 
-Some implementations have a function called `lift`, or `liftA2` to make it easier to run functions on functors.
+일부 구현에는 `lift` 또는 `liftA2`라는 함수가 있어 함수에서 함수를 더 쉽게 실행할 수 있습니다.
 
 ```scala
 def liftA2[F[_]: Monad, A, B, C](f: A => B => C)(a: F[A], b: F[B]) = {
@@ -554,7 +548,7 @@ liftA2((a: Int) => (b: Int) => a + b)(List(1, 2), List(3, 4))
 // res39: List[Int] = List(4, 5, 5, 6)
 ```
 
-Lifting a one-argument function and applying it does the same thing as `map`.
+인자가 하나인 함수를 들어 올려 적용하면 `map`과 동일한 작업이 수행됩니다.
 
 ```scala
 val increment = (x: Int) => x + 1
@@ -567,29 +561,26 @@ List(2).map(increment)
 // res41: List[Int] = List(3)
 ```
 
-
 ## Referential Transparency
 
-An expression that can be replaced with its value without changing the
-behavior of the program is said to be referentially transparent.
+프로그램의 동작을 변경하지 않고 해당 값으로 대체할 수 있는 표현식을 값을 변경하지 않고 대체할 수 있는 표현식을 참조 투명성(Referential Transparency)이라고 합니다.
 
-Say we have function greet:
+함수 인사말이 있다고 가정해 봅시다:
 
 ```scala
 val greet = () => "Hello World!"
 // greet: () => String = $$Lambda$6139/1754785613@1d1c9e6a
 ```
 
-Any invocation of `greet()` can be replaced with `Hello World!` hence greet is
-referentially transparent.
+`greet()`의 모든 호출은 `Hello World!`로 대체될 수 있으므로 greet은 참조 투명합니다.
 
 ##  Equational Reasoning
 
-When an application is composed of expressions and devoid of side effects, truths about the system can be derived from the parts.
+애플리케이션이 표현식으로 구성되어 있고 부작용이 없을 때, 시스템에 대한 진실은 그 부분으로부터 도출될 수 있습니다.
 
 ## Lambda
 
-An anonymous function that can be treated like a value.
+값처럼 취급할 수 있는 익명 함수입니다.
 
 ```scala
 (_: Int) + 1
@@ -598,14 +589,14 @@ An anonymous function that can be treated like a value.
 (x: Int) => x + 1
 // res43: Int => Int = $$Lambda$6141/605433877@12d4147c
 ```
-Lambdas are often passed as arguments to Higher-Order functions.
+람다(Lambda)는 종종 Higher-Order functions에 인수로 전달됩니다.
 
 ```scala
 List(1, 2).map(_ + 1)
 // res44: List[Int] = List(2, 3)
 ```
 
-You can assign a lambda to a variable.
+변수에 람다를 할당할 수 있습니다.
 
 ```scala
 val add1 = (a: Int) => a + 1
@@ -613,11 +604,12 @@ val add1 = (a: Int) => a + 1
 ```
 
 ## Lambda Calculus
-A branch of mathematics that uses functions to create a [universal model of computation](https://en.wikipedia.org/wiki/Lambda_calculus).
+
+함수를 사용하여 [계산의 범용 모델](https://en.wikipedia.org/wiki/Lambda_calculus)을 만드는 수학의 한 분야입니다.
 
 ## Lazy evaluation
 
-Lazy evaluation is a call-by-need evaluation mechanism that delays the evaluation of an expression until its value is needed. In functional languages, this allows for structures like infinite lists, which would not normally be available in an imperative language where the sequencing of commands is significant.
+지연 평가(Lazy evaluation)는 값이 필요할 때까지 표현식의 평가를 지연시키는 필요에 따른 호출 평가 메커니즘입니다. 함수형 언어에서는 명령의 순서가 중요한 명령형 언어에서는 일반적으로 사용할 수 없는 무한 목록과 같은 구조를 사용할 수 있습니다.
 
 ```scala
 lazy val rand: Double = {
@@ -628,69 +620,71 @@ lazy val rand: Double = {
 ```
 
 ```scala
-rand // Each execution gives a random value, expression is evaluated on need.
+rand // 각 실행은 임의의 값을 제공하며, 표현식은 필요에 따라 평가됩니다.
 // generate random value...
 // res45: Double = 0.7668030551457087
 ```
 
 ## Monoid
 
-An object with a function that "combines" that object with another of the same type.
+해당 객체를 같은 유형의 다른 객체와 "결합"하는 함수가 있는 객체입니다.
 
-One simple monoid is the addition of numbers:
+간단한 모노이드(Monoid) 중 하나는 숫자를 더하는 것입니다:
 
 ```scala
 1 + 1 
 // res46: Int = 2
 ```
-In this case number is the object and `+` is the function.
+이 경우 숫자는 객체이고 `+`는 함수입니다.
 
-An "identity" value must also exist that when combined with a value doesn't change it.
+값과 결합해도 값이 변경되지 않는 '동일성' 값도 존재해야 합니다.
 
-The identity value for addition is `0`.
+덧셈의 동일성 값은 `0`입니다.
+
 ```scala
 1 + 0 
 // res47: Int = 1
 ```
 
-It's also required that the grouping of operations will not affect the result (associativity):
+또한 작업 그룹화가 결과에 영향을 미치지 않아야 합니다(연관성):
 
 ```scala
 1 + (2 + 3) == (1 + 2) + 3
 // res48: Boolean = true
 ```
 
-Array concatenation also forms a monoid:
+배열 연결도 모노이드를 형성합니다:
 
 ```scala
 List(1, 2) ::: List(3, 4)
 // res49: List[Int] = List(1, 2, 3, 4)
 ```
 
-The identity value is empty array `[]`
+ID 값은 빈 배열 `[]`입니다.
 
 ```scala
 List(1, 2) ::: List()
 // res50: List[Int] = List(1, 2)
 ```
 
-If identity and compose functions are provided, functions themselves form a monoid:
+identity와 compose 함수가 제공되면 함수 자체가 모노이드를 형성합니다:
 
 ```scala
 def identity[A](a: A): A = a
 // identity: [A](a: A)A
 
-def compose[A, B, C](f: B => C, g: A => B) = (a: A) => f(g(a)) // Definition
+def compose[A, B, C](f: B => C, g: A => B) = (a: A) => f(g(a)) // 정의
 // compose: [A, B, C](f: B => C, g: A => B)A => C
 ```
-`foo` is any function that takes one argument.
+'foo'는 하나의 인수를 받는 모든 함수입니다.
+
 ```
 compose(foo, identity) ≍ compose(identity, foo) ≍ foo
 ```
 
 ## Monad
 
-A monad is an object with [`pure`](#pointed-functor) and `flatMap` functions. `flatMap` is like [`map`](#functor) except it un-nests the resulting nested object.
+모나드(Monad)는 [`pure`](#pointed-functor) 및 `flatMap` 함수가 있는 객체입니다. `flatMap`은 중첩된 객체의 중첩을 해제한다는 점을 제외하면 [`map`](#functor)와 비슷합니다.
 
 ```scala
 // Implementation
@@ -735,12 +729,12 @@ Monad[List].map(List("cat,dog", "fish,bird"))(a => a.split(",").toList)
 // res55: List[List[String]] = List(List(cat, dog), List(fish, bird))
 ```
 
-`pure` is also known as `return` in other functional languages.
-`flatMap` is also known as `bind` in other languages.
+`순수`는 다른 함수형 언어에서는 `return`이라고도 합니다.
+`flatMap`은 다른 언어에서는 `bind`라고도 합니다.
 
 ## Comonad
 
-An object that has `extract` and `coflatMap` functions.
+`extract` 및 `coflatMap` 함수가 있는 객체입니다.
 
 ```scala
 trait Comonad[F[_]] {
@@ -774,7 +768,7 @@ object Comonad {
 // Companions must be defined together; you may wish to use :paste mode for this.
 ```
 
-Extract takes a value out of a functor.
+추출은 펑터에서 값을 가져옵니다.
 
 ```scala
 import Comonad._
@@ -784,7 +778,7 @@ Comonad[Id].extract(id(1))
 // res56: Id[Int] = 1
 ```
 
-Extend runs a function on the comonad. The function should return the same type as the comonad.
+Extend는 Comonad에서 함수를 실행합니다. 함수는 Comonad와 동일한 유형을 반환해야 합니다.
 
 ```scala
 Comonad[Id].coflatMap[Int, Int](id(1))(co => Comonad[Id].extract(co) + 1)
@@ -793,7 +787,7 @@ Comonad[Id].coflatMap[Int, Int](id(1))(co => Comonad[Id].extract(co) + 1)
 
 ## Applicative Functor
 
-An applicative functor is an object with an `ap` function. `ap` applies a function in the object to a value in another object of the same type.
+적용성 펑터(Applicative Functor)는 `ap` 함수가 있는 객체입니다. `ap`는 객체의 함수를 같은 유형의 다른 객체에 있는 값에 적용합니다.
 
 ```scala
 // Implementation
@@ -826,7 +820,7 @@ Applicative[List].ap(List((_: Int) + 1))(List(1))
 // res60: List[Int] = List(2)
 ```
 
-This is useful if you have two objects and you want to apply a binary function to their contents.
+두 개의 객체가 있고 그 콘텐츠에 이진 함수를 적용하려는 경우 유용합니다.
 
 ```scala
 // Arrays that you want to combine
@@ -844,7 +838,7 @@ val partiallyAppiedAdds = Applicative[List].ap(List(add))(arg1) // [(y) => 1 + y
 // partiallyAppiedAdds: List[Int => Int] = List($$Lambda$6152/226672465@6ff3ff0, $$Lambda$6152/226672465@677536aa)
 ```
 
-This gives you an array of functions that you can call `ap` on to get the result:
+이렇게 하면 `ap`를 호출하여 결과를 얻을 수 있는 함수 배열이 제공됩니다:
 
 ```scala
 Applicative[List].ap(partiallyAppiedAdds)(arg2)
@@ -853,11 +847,11 @@ Applicative[List].ap(partiallyAppiedAdds)(arg2)
 
 ## Morphism
 
-A transformation function.
+변환 함수입니다.
 
 ### Endomorphism
 
-A function where the input type is the same as the output.
+입력 유형이 출력과 동일한 함수입니다.
 
 ```scala
 // uppercase :: String -> String
@@ -871,9 +865,9 @@ val decrement = (x: Int) => x - 1
 
 ### Isomorphism
 
-A pair of transformations between 2 types of objects that is structural in nature and no data is lost.
+본질적으로 구조적이며 데이터 손실이 없는 두 가지 유형의 객체 간의 변환 쌍입니다.
 
-For example, 2D coordinates could be stored as an array `[2,3]` or object `{x: 2, y: 3}`.
+예를 들어 2D 좌표는 배열 `[2,3]` 또는 객체 `{x: 2, y: 3}`.
 
 ```scala
 // Providing functions to convert in both directions makes them isomorphic.
@@ -897,9 +891,9 @@ pairToCoords(coordsToPair(Coords(1, 2)))
 
 ## Setoid
 
-An object that has an `equals` function which can be used to compare other objects of the same type.
+같은 유형의 다른 객체를 비교하는 데 사용할 수 있는 'equals' 함수가 있는 객체입니다.
 
-Make array a setoid:
+배열을 Setoid로 만듭니다:
 
 ```scala
 trait Eq[A] {
@@ -941,7 +935,7 @@ Array(1, 2).eqv(Array(0))
 
 ## Semigroup
 
-An object that has a `combine` function that combines it with another object of the same type.
+같은 유형의 다른 객체와 결합하는 `combine` 함수가 있는 객체입니다.
 
 ```scala
 trait Semigroup[A] {
@@ -972,8 +966,8 @@ Semigroup[List[Int]].combine(List(1), List(2))
 // res0: List[Int] = List(1, 2)
 ```
 
-Semigroup must be closed under associativity and arbitrary products.
-(x·y)·z = x·(y·z) for all x, y and z in the semigroup.
+Semigroup은 연관성과 임의의 곱에 의해 닫혀야 합니다.
+Semigroup의 모든 x, y, z에 대해 (x-y)-z = x-(y-z)가 됩니다.
 
 ```scala
 List(1).combine(List(2)).combine(List(3)) 
@@ -986,7 +980,7 @@ List(1).combine(List(2).combine(List(3)))
 
 ## Foldable
 
-An object that has a `foldr/l` function that can transform that object into some other type.
+해당 객체를 다른 유형으로 변환할 수 있는 `foldr/l` 함수가 있는 객체입니다.
 
 ```scala
 trait Foldable[F[_]] {
@@ -1027,8 +1021,8 @@ sum(List(1, 2, 3))
 ```
 
 ## Lens
-A lens is a structure (often an object or function) that pairs a getter and a non-mutating setter for some other data
-structure.
+
+렌즈(Lens)는 다른 데이터 구조체에 대한 게터와 변하지 않는 세터를 짝을 이루는 구조(종종 객체 또는 함수)입니다.
 
 ```scala
 import cats.Functor
@@ -1078,7 +1072,7 @@ val nameLens = Lens[Person, String](_.name)(str => p => p.copy(name = str))
 // nameLens: monocle.Lens[Person,String] = monocle.PLens$$anon$8@5b2aa650
 ```
 
-Having the pair of get and set for a given data structure enables a few key features.
+주어진 데이터 구조에 대해 가져오기와 설정의 쌍을 사용하면 몇 가지 주요 기능을 사용할 수 있습니다.
 
 ```scala
 val person = Person("Gertrude Blanch")
@@ -1100,7 +1094,7 @@ nameLens.modify(_.toUpperCase)(person)
 // res18: Person = Person(GERTRUDE BLANCH)
 ```
 
-Lenses are also composable. This allows easy immutable updates to deeply nested data.
+렌즈도 컴포지션할 수 있습니다. 이를 통해 깊게 중첩된 데이터에 대한 변경 불가능한 업데이트를 쉽게 수행할 수 있습니다.
 
 ```scala
 // This lens focuses on the first item in a non-empty array
@@ -1131,7 +1125,7 @@ Other implementations:
 
 ## Type Signatures 
 
-Every functions in Scala will indicate the types of their arguments and return values.
+스칼라의 모든 함수는 인수의 유형과 반환값을 표시합니다.
 
 ```scala
 // functionName :: firstArgType -> secondArgType -> returnType
@@ -1145,7 +1139,7 @@ val increment = (x: Int) => x + 1
 // increment: Int => Int = $$Lambda$6169/2134951565@23429781
 ```
 
-If a function accepts another function as an argument it is wrapped in parentheses.
+함수가 다른 함수를 인수로 받아들이는 경우 괄호로 묶입니다.
 
 ```scala
 // call :: (a -> b) -> a -> b
@@ -1153,7 +1147,7 @@ def call[A, B] = (f: A => B) => (x: A) => f(x)
 // call: [A, B]=> (A => B) => (A => B)
 ```
 
-The letters `a`, `b`, `c`, `d` are used to signify that the argument can be of any type. The following version of `map` takes a function that transforms a value of some type `a` into another type `b`, an array of values of type `a`, and returns an array of values of type `b`.
+문자 `a`, `b`, `c`, `d`는 인자가 어떤 유형이든 될 수 있음을 나타내기 위해 사용됩니다. 다음 버전의 `map`은 어떤 타입 `a`의 값을 다른 타입 `b`로 변환하는 함수, `a` 타입의 값 배열을 받아 `b` 타입의 값 배열을 반환합니다.
 
 ```scala
 // map :: (a -> b) -> [a] -> [b]
@@ -1167,12 +1161,15 @@ __Further reading__
 * [What is Hindley-Milner?](http://stackoverflow.com/a/399392/22425) on Stack Overflow
 
 ## Algebraic data type
-A composite type made from putting other types together. Two common classes of algebraic types are [sum](#sum-type) and [product](#product-type).
+
+다른 유형을 함께 묶어 만든 복합 유형입니다. 대수 유형의 두 가지 일반적인 클래스는 [합](#sum-type)과 [곱](#product-type)입니다.
 
 ### Sum type
-A Sum type is the combination of two types together into another one. It is called sum because the number of possible values in the result type is the sum of the input types.
 
-we can use `sealed trait` or `Either` to have this type:
+합계 유형(Sum type)은 두 유형을 하나로 결합한 것입니다. 결과 유형의 가능한 값의 수는 입력 유형의 합이므로 합이라고 합니다.
+
+우리는 이 유형을 가지기 위해 `sealed trait` 또는 `Either`를 사용할 수 있습니다:
+
 ```scala
 // imagine that rather than sets here we have types that can only have these values
 sealed trait Bool
@@ -1200,7 +1197,7 @@ val weakLogicValues: Set[Either[HalfTrue, Bool]] = Set(Right(True), Right(False)
 // weakLogicValues: Set[Either[HalfTrue,Bool]] = Set(Right(True$@c8afbd6), Right(False$@78d0f039), Left(HalfTrue$@76907679))
 ```
 
-Sum types are sometimes called union types, discriminated unions, or tagged unions.
+합계 유형은 유니온 유형, 차별 유니온 또는 태그가 지정된 유니온이라고도 합니다.
 
 There's a [couple](https://github.com/paldepind/union-type) [libraries](https://github.com/puffnfresh/daggy) in JS which help with defining and using union types.
 
@@ -1208,7 +1205,7 @@ Flow includes [union types](https://flow.org/en/docs/types/unions/) and TypeScri
 
 ### Product type
 
-A **product** type combines types together in a way you're probably more familiar with:
+**곱** 유형(Product type)은 아마도 더 익숙한 방식으로 유형을 결합합니다:
 
 ```scala
 // point :: (Number, Number) -> {x: Number, y: Number}
@@ -1218,14 +1215,16 @@ case class Point(x: Int, y: Int)
 val point = (x: Int, y: Int) => Point(x, y)
 // point: (Int, Int) => Point = $$Lambda$6170/1963675584@55a1298b
 ```
-It's called a product because the total possible values of the data structure is the product of the different values. Many languages have a tuple type which is the simplest formulation of a product type.
+
+데이터 구조에서 가능한 총 값은 서로 다른 값의 곱이기 때문에 곱이라고 합니다. 많은 언어에는 제품 유형의 가장 간단한 공식인 튜플 유형이 있습니다.
 
 See also [Set theory](https://en.wikipedia.org/wiki/Set_theory).
 
 ## Option
-Option is a [sum type](#sum-type) with two cases often called `Some` and `None`.
 
-Option is useful for composing functions that might not return a value.
+옵션은 [합계 유형](#sum-type)으로, 흔히 'Some'와 'None'이라는 두 가지 경우가 있습니다.
+
+옵션은 값을 반환하지 않을 수 있는 함수를 작성할 때 유용합니다.
 
 ```scala
 // Naive definition
@@ -1276,7 +1275,7 @@ getNestedPrice(Map("item" -> Map("price" -> 9.99)))
 // res40: Option[Double] = Some(9.99)
 ```
 
-`Option` is also known as `Maybe`. `Some` is sometimes called `Just`. `None` is sometimes called `Nothing`.
+`Option`은 `Maybe`로도 알려져 있습니다. `Some`은 때때로 `Just`라고도 합니다. `None`은 때때로 `Nothing`이라고도 합니다.
 
 ## Functional Programming Libraries in Scala
 
